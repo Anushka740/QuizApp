@@ -5,7 +5,9 @@ import com.cogno.quizapp.responses.QuizQuestionListResponse;
 import com.cogno.quizapp.responses.QuizResponse;
 import com.cogno.quizapp.responses.ResultResponse;
 import com.cogno.quizapp.service.serviceInterfaces.QuizService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +44,11 @@ public class QuizController {
     @PostMapping("submit/{id}")
     public ResultResponse submitQuiz(@PathVariable Integer id, @RequestBody List<Result> respons){
         return quizService.calculateResult(id, respons);
+    }
+    @GetMapping("/csrf-token")
+    public CsrfToken getCsrfToken(HttpServletRequest request) {
+        return (CsrfToken) request.getAttribute("_csrf");
+
     }
 
 }
